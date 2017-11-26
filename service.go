@@ -1,4 +1,4 @@
-package couchbase
+package webquic
 
 import (
 	"github.com/lucas-clemente/quic-go/h2quic"
