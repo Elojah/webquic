@@ -1,4 +1,4 @@
-PACKAGE  = couchbase
+PACKAGE  = webquic
 DATE    ?= $(shell date +%FT%T%z)
 VERSION ?= $(shell git describe --tags --always --dirty --match=v* 2> /dev/null || \
 			cat $(CURDIR)/.version 2> /dev/null || echo v0)
@@ -19,15 +19,15 @@ all: lint test
 .PHONY: deps
 deps:
 	$Q go get -u github.com/golang/dep/cmd/dep
-	dep ensure -vendor-only
+	$Q dep ensure -vendor-only
 
 .PHONY: test
 test:
-	go test -cover -race -v ./...
+	$Q go test -cover -race -v ./...
 
 .PHONY: lint
 lint: $(GOLINT) ; $(info $(M) running golint…) @ ## Run golint
-	$Q go get github.com/golang/lint/golint
+	$Q golint `go list ./... | grep -v vendor/`
 	$Q gometalinter "--vendor" \
 					"--disable=gotype" \
 					"--fast" \

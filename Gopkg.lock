@@ -3,49 +3,67 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/aead/chacha20"
+  packages = [".","chacha"]
+  revision = "8d6ce0550041f9d97e7f15ec27ed489f8bbbb0fb"
+
+[[projects]]
+  branch = "master"
   name = "github.com/elojah/services"
   packages = ["."]
   revision = "d9930d97b9f832fd753fd538ee6d68db5b501b51"
 
 [[projects]]
   branch = "master"
+  name = "github.com/hashicorp/golang-lru"
+  packages = [".","simplelru"]
+  revision = "0a025b7e63adc15a622f29b0b2c4c3848243bbf6"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/lucas-clemente/aes12"
+  packages = ["."]
+  revision = "cd47fb39b79f867c6e4e5cd39cf7abd799f71670"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/lucas-clemente/fnv128a"
+  packages = ["."]
+  revision = "393af48d391698c6ae4219566bfbdfef67269997"
+
+[[projects]]
+  name = "github.com/lucas-clemente/quic-go"
+  packages = [".","ackhandler","congestion","crypto","flowcontrol","frames","h2quic","handshake","protocol","qerr","utils"]
+  revision = "d51a4a1ba70df8c2d5c4522c071aaa225690a11d"
+  version = "v0.5.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/lucas-clemente/quic-go-certificates"
+  packages = ["."]
+  revision = "d2f86524cced5186554df90d92529757d22c1cb6"
+
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/crypto"
+  packages = ["curve25519","hkdf"]
+  revision = "94eea52f7b742c7cbe0b03b22f0c4c8631ece122"
+
+[[projects]]
+  branch = "master"
   name = "golang.org/x/net"
   packages = ["http2","http2/hpack","idna","lex/httplex"]
-  revision = "9dfe39835686865bff950a07b394c12a98ddc811"
+  revision = "a8b9294777976932365dabb6640cf1468d95c70f"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/text"
   packages = ["collate","collate/build","internal/colltab","internal/gen","internal/tag","internal/triegen","internal/ucd","language","secure/bidirule","transform","unicode/bidi","unicode/cldr","unicode/norm","unicode/rangetable"]
-  revision = "88f656faf3f37f690df1a32515b479415e1a6769"
-
-[[projects]]
-  name = "gopkg.in/couchbase/gocb.v1"
-  packages = ["."]
-  revision = "1c2ef7adea514fb111a41841a89ba2bbacc6acd4"
-  version = "v1.3.0"
-
-[[projects]]
-  name = "gopkg.in/couchbase/gocbcore.v7"
-  packages = ["."]
-  revision = "7e83ad200f5d9b4d12b12b16fa643b036714d5b2"
-  version = "v7.0.5"
-
-[[projects]]
-  name = "gopkg.in/couchbaselabs/gocbconnstr.v1"
-  packages = ["."]
-  revision = "710456e087a6d497e87f41d0a9d98d6a75672186"
-  version = "v1.0.1"
-
-[[projects]]
-  name = "gopkg.in/couchbaselabs/jsonx.v1"
-  packages = ["."]
-  revision = "5b7baa20429a46a5543ee259664cc86502738cad"
-  version = "v1.0.0"
+  revision = "75cc3cad82b5f47d3fb229ddda8c5167da14f294"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "b197a58b82ddd78272890682ec8da64868321fb3a39ccf943954d9bf10d5874d"
+  inputs-digest = "55998c00f082d30091ef8d43a253ed09f302c344903d460ef37de1aff8578eb0"
   solver-name = "gps-cdcl"
   solver-version = 1
