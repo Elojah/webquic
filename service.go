@@ -11,8 +11,8 @@ type Service struct {
 
 // Dial sends the new config to Service.
 func (s *Service) Dial(c Config) error {
-	s.Adress = c.URL + c.Port
-	return h2quic.ListenAndServeQUIC(s.Adress, "", "", nil)
+	s.Adress = c.URL + ":" + c.Port
+	return h2quic.ListenAndServeQUIC(s.Adress, c.CertPem, c.CertKey, nil)
 }
 
 // Healthcheck returns if database responds.
