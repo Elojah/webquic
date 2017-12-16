@@ -35,9 +35,11 @@ func (c *Config) Dial(fileconf interface{}) error {
 	if !ok {
 		return errors.New("missing key dispatcher")
 	}
-	if c.Dispatcher, ok = cDispatcher.(int); !ok {
-		return errors.New("key dispatcher invalid. must be int")
+	cDispatcherFloat, ok := cDispatcher.(float64)
+	if !ok {
+		return errors.New("key dispatcher invalid. must be number")
 	}
+	c.Dispatcher = int(cDispatcherFloat)
 	return nil
 }
 
