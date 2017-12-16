@@ -1,18 +1,32 @@
 package webquic
 
 import (
-	"github.com/lucas-clemente/quic-go/h2quic"
+	"crypto/tls"
+	"net/http"
+
+	"github.com/devsisters/goquic"
 )
 
 // Service represents the couchbase service.
 type Service struct {
-	Adress string
+	Server *goquic.QuicSpdyServer
 }
 
 // Dial sends the new config to Service.
 func (s *Service) Dial(c Config) error {
-	s.Adress = c.URL + ":" + c.Port
-	return h2quic.ListenAndServeQUIC(s.Adress, c.CertPem, c.CertKey, nil)
+	var err error
+	if s.Server, err = goquic.NewServer(
+		c.URL+":"+c.Port,
+		c.CertPem,
+		c.CertKey,
+		c.Dispatcher,
+		http.DefaultServeMux,
+		http.DefaultServeMux,
+		&tls.Config{MinVersion: tls.VersionSSL30},
+	); err != nil {
+		return err
+	}
+	return s.Server.ListenAndServe()
 }
 
 // Healthcheck returns if database responds.

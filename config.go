@@ -6,10 +6,11 @@ import (
 
 // Config is web quic server structure config.
 type Config struct {
-	URL     string `json:"url"`
-	Port    string `json:"port"`
-	CertKey string `json:"cert-key"`
-	CertPem string `json:"cert-pem"`
+	URL        string `json:"url"`
+	Port       string `json:"port"`
+	CertKey    string `json:"cert-key"`
+	CertPem    string `json:"cert-pem"`
+	Dispatcher int    `json:"dispatcher"`
 }
 
 // Equal returns is both configs are equal.
@@ -24,6 +25,23 @@ func (c *Config) Dial(fileconf interface{}) error {
 	if !ok {
 		return errors.New("namespace empty")
 	}
+	if err := c.dialAdress(fconf); err != nil {
+		return err
+	}
+	if err := c.dialCert(fconf); err != nil {
+		return err
+	}
+	cDispatcher, ok := fconf["dispatcher"]
+	if !ok {
+		return errors.New("missing key dispatcher")
+	}
+	if c.Dispatcher, ok = cDispatcher.(int); !ok {
+		return errors.New("key dispatcher invalid. must be int")
+	}
+	return nil
+}
+
+func (c *Config) dialAdress(fconf map[string]interface{}) error {
 	cURL, ok := fconf["url"]
 	if !ok {
 		return errors.New("missing key url")
@@ -38,6 +56,10 @@ func (c *Config) Dial(fileconf interface{}) error {
 	if c.Port, ok = cPort.(string); !ok {
 		return errors.New("key port invalid. must be string")
 	}
+	return nil
+}
+
+func (c *Config) dialCert(fconf map[string]interface{}) error {
 	cKey, ok := fconf["cert-key"]
 	if !ok {
 		return errors.New("missing key cert-key")
@@ -45,11 +67,11 @@ func (c *Config) Dial(fileconf interface{}) error {
 	if c.CertKey, ok = cKey.(string); !ok {
 		return errors.New("key cert-key invalid. must be string")
 	}
-	cPerm, ok := fconf["cert-pem"]
+	cPem, ok := fconf["cert-pem"]
 	if !ok {
 		return errors.New("missing key cert-pem")
 	}
-	if c.CertPem, ok = cPerm.(string); !ok {
+	if c.CertPem, ok = cPem.(string); !ok {
 		return errors.New("key cert-pem invalid. must be string")
 	}
 	return nil
