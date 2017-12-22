@@ -26,7 +26,8 @@ func (s *Service) Dial(c Config) error {
 	); err != nil {
 		return err
 	}
-	return s.Server.ListenAndServe()
+	go func() { _ = s.Server.ListenAndServe() }()
+	return nil
 }
 
 // Healthcheck returns if database responds.
