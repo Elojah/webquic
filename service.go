@@ -2,6 +2,7 @@ package webquic
 
 import (
 	"crypto/tls"
+	"fmt"
 	"net/http"
 
 	"github.com/devsisters/goquic"
@@ -16,7 +17,7 @@ type Service struct {
 func (s *Service) Dial(c Config) error {
 	var err error
 	if s.Server, err = goquic.NewServer(
-		c.URL+":"+c.Port,
+		fmt.Sprintf("%s:%s", c.URL, c.Port),
 		c.CertPem,
 		c.CertKey,
 		c.Dispatcher,
