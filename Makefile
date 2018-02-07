@@ -3,43 +3,56 @@ DATE    ?= $(shell date +%FT%T%z)
 VERSION ?= $(shell git describe --tags --always --dirty --match=v* 2> /dev/null || \
 			cat $(CURDIR)/.version 2> /dev/null || echo v0)
 
-GOBIN   = $(GOPATH)/bin
+GO      = go
 GODOC   = godoc
 GOFMT   = gofmt
+GOLINT   = gometalinter
 
 V = 0
 Q = $(if $(filter 1,$V),,@)
 M = $(shell printf "\033[0;35m▶\033[0m")
 
-.PHONY: all
 
-all: lint test
+all: check
 
-# Tests
+# Dependencies
 .PHONY: deps
 deps:
-	$Q go get -u github.com/golang/dep/cmd/dep
+	$(info $(M) building vendor…) @
 	$Q dep ensure -vendor-only
 
+# Check
+.PHONY: check
+check: lint test
+
+# Tests
 .PHONY: test
 test:
-	$Q go test -cover -race -v ./...
+	$(info $(M) running go test…) @
+	$Q $(GO) test -cover -race -v ./...
 
+# Tools
 .PHONY: lint
-lint: $(GOLINT) ; $(info $(M) running golint…) @ ## Run golint
-	$Q golint `go list ./... | grep -v vendor/`
-	$Q gometalinter "--vendor" \
+lint:
+	$(info $(M) running $(GOLINT)…) @
+	$Q GO_VENDOR=1 $(GOLINT) "--vendor" \
+					"--exclude=.pb.go" \
 					"--disable=gotype" \
+					"--disable=vetshadow" \
+					"--disable=gocyclo" \
 					"--fast" \
 					"--json" \
 					"./..." \
 
 .PHONY: fmt
-fmt: ; $(info $(M) running gofmt…) @ ## Run gofmt on all source files
-	@ret=0 && for d in $$(go list -f '{{.Dir}}' ./... | grep -v /vendor/); do \
-		$(GOFMT) -l -w $$d/*.go || ret=$$? ; \
-	 done ; exit $$ret
+fmt:
+	$(info $(M) running $(GOFMT)…) @
+	$Q $(GOFMT) ./...
 
+.PHONY: doc
+doc:
+	$(info $(M) running $(GODOC)…) @
+	$Q $(GODOC) ./...
 
 .PHONY: version
 version:
