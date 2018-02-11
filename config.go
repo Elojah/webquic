@@ -6,8 +6,7 @@ import (
 
 // Config is web quic server structure config.
 type Config struct {
-	URL        string `json:"url"`
-	Port       string `json:"port"`
+	Address    string `json:"address"`
 	CertKey    string `json:"cert-key"`
 	CertPem    string `json:"cert-pem"`
 	Dispatcher int    `json:"dispatcher"`
@@ -15,8 +14,7 @@ type Config struct {
 
 // Equal returns is both configs are equal.
 func (c Config) Equal(rhs Config) bool {
-	return c.URL == rhs.URL &&
-		c.Port == rhs.Port
+	return c.Address == rhs.Address
 }
 
 // Dial set the config from a config namespace.
@@ -44,19 +42,12 @@ func (c *Config) Dial(fileconf interface{}) error {
 }
 
 func (c *Config) dialAdress(fconf map[string]interface{}) error {
-	cURL, ok := fconf["url"]
+	cAddress, ok := fconf["address"]
 	if !ok {
-		return errors.New("missing key url")
+		return errors.New("missing key address")
 	}
-	if c.URL, ok = cURL.(string); !ok {
-		return errors.New("key url invalid. must be string")
-	}
-	cPort, ok := fconf["port"]
-	if !ok {
-		return errors.New("missing key port")
-	}
-	if c.Port, ok = cPort.(string); !ok {
-		return errors.New("key port invalid. must be string")
+	if c.Address, ok = cAddress.(string); !ok {
+		return errors.New("key address invalid. must be string")
 	}
 	return nil
 }

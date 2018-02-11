@@ -24,7 +24,3 @@
 [[constraint]]
   branch = "master"
   name = "github.com/elojah/services"
-
-[[constraint]]
-  name = "github.com/lucas-clemente/quic-go"
-  version = "0.5.0"

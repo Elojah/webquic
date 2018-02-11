@@ -2,13 +2,12 @@ package webquic
 
 import (
 	"crypto/tls"
-	"fmt"
 	"net/http"
 
 	"github.com/devsisters/goquic"
 )
 
-// Service represents the couchbase service.
+// Service represents the webquic service.
 type Service struct {
 	Server *goquic.QuicSpdyServer
 }
@@ -17,7 +16,7 @@ type Service struct {
 func (s *Service) Dial(c Config) error {
 	var err error
 	if s.Server, err = goquic.NewServer(
-		fmt.Sprintf("%s:%s", c.URL, c.Port),
+		c.Address,
 		c.CertPem,
 		c.CertKey,
 		c.Dispatcher,

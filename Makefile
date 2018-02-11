@@ -20,6 +20,15 @@ all: check
 deps:
 	$(info $(M) building vendor…) @
 	$Q dep ensure -vendor-only
+	$Q $(MAKE) goquic
+
+# Goquic library
+.PHONY: goquic
+goquic:
+	$(info $(M) building goquic…) @
+	$Q cd vendor/github.com/devsisters/goquic &&\
+		git clone git@github.com:devsisters/libquic.git libquic &&\
+		./build_libs.sh -r
 
 # Check
 .PHONY: check
