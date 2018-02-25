@@ -21,7 +21,7 @@ func (s *Service) Dial(c Config) error {
 		c.CertKey,
 		c.Dispatcher,
 		http.DefaultServeMux,
-		nil,
+		http.DefaultServeMux,
 		&tls.Config{MinVersion: tls.VersionSSL30},
 	); err != nil {
 		return err
